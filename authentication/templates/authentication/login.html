@@ -1,0 +1,52 @@
+{% extends 'authentication/base.html' %}
+
+{% block title %}Login - HC{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="card shadow">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4">Login</h2>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="text-danger">
+                            {% for error in form.username.errors %}
+                                <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                        <div class="text-danger">
+                            {% for error in form.password.errors %}
+                                <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </div>
+            </form>
+
+            <hr class="my-4">
+            <div class="text-center">
+                <small class="text-muted">
+                    Don't have an account? Contact administrator to create one.
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
