@@ -1,51 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}HC Authentication{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-        }
-        .dashboard-container {
-            max-width: 800px;
-            margin: 50px auto;
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'authentication:dashboard' %}">HC</a>
-            {% if user.is_authenticated %}
-                <div class="navbar-nav ms-auto">
-                    <span class="navbar-text me-3">Welcome, {{ user.username }}!</span>
-                    <a class="nav-link" href="{% url 'authentication:logout' %}">Logout</a>
-                </div>
-            {% endif %}
-        </div>
-    </nav>
+{% extends 'adminlte/base.html' %}
 
-    <div class="container">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mt-3" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+{% block title %}HC - {% block page_title %}{% endblock %}{% endblock %}
+
+{% block logo_text %}HC{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show m-3" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% block main_content %}
+    {% endblock %}
+</div>
+{% endblock %}
+
+{% block navbar %}
+<nav class="main-header navbar navbar-expand-lg navbar-dark bg-dark">
+    <ul class="navbar-nav ml-auto">
+        {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="fas fa-user"></i> {{ user.username }}
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <span class="dropdown-item dropdown-header">Welcome, {{ user.username }}!</span>
+                    <a href="{% url 'authentication:logout' %}" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
                 </div>
-            {% endfor %}
+            </li>
         {% endif %}
-
-        {% block content %}
-        {% endblock %}
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    </ul>
+</nav>
+{% endblock %}

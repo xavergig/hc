@@ -57,6 +57,10 @@ credentials/
 config/secrets.py
 local_settings.py
 
+# Static files
+staticfiles/
+static/
+
 # Backup files
 *.bak
 *.backup
